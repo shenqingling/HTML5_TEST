@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!--1、整个照片墙跟随鼠标的位置而倾斜
+    2、所有单个照片都是一个立方体
+        a. 元素选择nth-of-type(),
+        b. 旋转transform: rotateX rotateY rotateZ
+    3、鼠标移入单个方块，方块要旋转（方向随机）并放大。鼠标离开，回到原位
+    4、鼠标移入单个方块，背景色随机变化（淡入淡出效果）-->
+    <meta charset="UTF-8">
+    <title>CSS3照片墙</title>
+    <style>
+    body {
+        background: #b8e6b3;
+        /*transition: 0.5s;*/
+        -webkit-transition: all .5s;
+        -moz-transition: all .5s;
+        -ms-transition: all .5s;
+        -o-transition: all .5s;
+        transition: all .5s;
+    }
+    
+    #content {
+        width: 1190px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 100px auto;
+        /*把盒子变成一个3d空间*/
+        transform-style: preserve-3d;
+        /*perspective透视：理解成图片距离屏幕的距离*/
+        -webkit-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        -moz-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        -ms-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        -o-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+    }
+    
+    .box {
+        width: 150px;
+        height: 150px;
+        position: relative;
+        margin: 12px 0;
+        /*把盒子变成一个3d空间*/
+        transform-style: preserve-3d;
+        /*perspective透视：理解成图片距离屏幕的距离*/
+        -webkit-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        -moz-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        -ms-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        -o-transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+        -webkit-transition: all .5s;
+        -moz-transition: all .5s;
+        -ms-transition: all .5s;
+        -o-transition: all .5s;
+        transition: all .5s;
+    }
+    
+    .box:hover {
+        /*transform: perspective(250px) rotateX(180deg) rotateY(0deg);*/
+        /*transform: perspective(250px) rotateX(0deg) rotateY(180deg);*/
+    }
+    /*hover只能实现固定方向的旋转*/
+    
+    .box div {
+        width: 150px;
+        height: 150px;
+        border: 10px solid #FFF;
+        /*background: #f0f0f0 url('images/1.png') no-repeat center;*/
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        /*不加这个 .box是170*170；加上这个是150*150
+        但是，兼容性有问题*/
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+    
+    .box:nth-child(3n) div {
+        background: #f0f0f0 url('images/1.png') no-repeat center;
+    }
+    /*1n*/
+    
+    .box:nth-child(3n+1) div {
+        background: #f0f0f0 url('images/2.png') no-repeat center;
+    }
+    /*2n*/
+    
+    .box:nth-child(3n+2) div {
+        background: #f0f0f0 url('images/3.png') no-repeat center;
+    }
+    /*3n*/
+    
+    .box div:nth-of-type(1) {
+        -webkit-transform: translateZ(75px);
+        -moz-transform: translateZ(75px);
+        -ms-transform: translateZ(75px);
+        -o-transform: translateZ(75px);
+        transform: translateZ(75px);
+    }
+    
+    .box div:nth-of-type(2) {
+        -webkit-transform: translateZ(-75px);
+        -moz-transform: translateZ(-75px);
+        -ms-transform: translateZ(-75px);
+        -o-transform: translateZ(-75px);
+        transform: translateZ(-75px);
+    }
+    
+    .box div:nth-of-type(3) {
+        /*这里的rotate 和 translate 是有执行顺序的*/
+        -webkit-transform: rotateX(90deg) translateZ(75px);
+        -moz-transform: rotateX(90deg) translateZ(75px);
+        -ms-transform: rotateX(90deg) translateZ(75px);
+        -o-transform: rotateX(90deg) translateZ(75px);
+        transform: rotateX(90deg) translateZ(75px);
+    }
+    
+    .box div:nth-of-type(4) {
+        -webkit-transform: rotateX(90deg) translateZ(-75px);
+        -moz-transform: rotateX(90deg) translateZ(-75px);
+        -ms-transform: rotateX(90deg) translateZ(-75px);
+        -o-transform: rotateX(90deg) translateZ(-75px);
+        transform: rotateX(90deg) translateZ(-75px);
+    }
+    
+    .box div:nth-of-type(5) {
+        -webkit-transform: rotateY(90deg) translateZ(75px);
+        -moz-transform: rotateY(90deg) translateZ(75px);
+        -ms-transform: rotateY(90deg) translateZ(75px);
+        -o-transform: rotateY(90deg) translateZ(75px);
+        transform: rotateY(90deg) translateZ(75px);
+    }
+    
+    .box div:nth-of-type(6) {
+        -webkit-transform: rotateY(90deg) translateZ(-75px);
+        -moz-transform: rotateY(90deg) translateZ(-75px);
+        -ms-transform: rotateY(90deg) translateZ(-75px);
+        -o-transform: rotateY(90deg) translateZ(-75px);
+        transform: rotateY(90deg) translateZ(-75px);
+    }
+    
+    .box span {
+        display: block;
+        width: 70px;
+        height: 70px;
+        position: absolute;
+        right: -35px;
+        bottom: -35px;
+        border-radius: 50%;
+        text-indent: 9%;
+        line-height: 45px;
+        text-align: left;
+        font-size: 18px;
+        font-family: '微软雅黑';
+        color: #FFF;
+    }
+    
+    .box:nth-of-type(1n) span {
+        background: #f8af8d;
+    }
+    
+    .box:nth-of-type(2n) span {
+        background: #f8d18d;
+    }
+    
+    .box:nth-of-type(3n) span {
+        background: #8df88d;
+    }
+    </style>
+    <script>
+    window.onload = function() {
+        var boxs = document.querySelectorAll('.box');
+        var content = document.getElementById('content');
+        for (var i = 0; i < boxs.length; i++) {
+            /*
+            随机旋转 rotateX rotateY 180deg -180deg
+             */
+            var rot = ['rotateX(180deg)', 'rotateX(-180deg)', 'rotateY(180deg)', 'rotateY(-180deg)'];
+            var colors = ['#F7E8ED', '#F2D9E6', '#ECC6DE', '#E0ECF5', '#DDF4DE', '#F0F1D5', '#EEDECD', '#B8E6B3', '#ABE3D8', '#E0E1F5', '#F7E8ED', '#F2D9E6', '#E0ECF5', '#DDF4DE', '#F0F1D5', '#EEDECD', '#B8E6B3', '#ABE3D8', '#DFD1F0', '#6161616'];
+            /*
+            注意: 1. 用onmouseover时，事件连续触发的bug（因为会事件冒泡）
+                  2. onmouseover onmouseout
+                  3. onmouseenter onmouseleave
+             */
+            boxs[i].onmouseenter = function() {
+                // this.style.transform = 'perspective(250px) rotateX(180deg) rotateY(0deg)';
+                var css = Math.round((rot.length - 1) * Math.random());
+                var color = Math.floor(colors.length * Math.random());
+                // var random = Math.floor(rot.length * Math.random());
+                this.style.transform = 'perspective(1000px) translateZ(150px) ' + rot[css];
+                document.body.style.background = colors[color];
+            }
+
+            boxs[i].onmouseleave = function() {
+                this.style.transform = '';
+            }
+        }
+
+        document.onmousemove = function(e) {
+            /*
+            1. 鼠标左右：旋转Y轴(右正，左负) clientX
+            2. 鼠标上下：旋转X轴(上正，下负) clientY
+            3. 旋转是以屏幕中心为基准点，左右、上下分别对称
+             */
+            // // 左右
+            // var offsetX = e.clientX - document.body.clientWidth / 2;
+            // // 上下
+            // var offsetY = document.body.clientHeight / 2 - e.clientY;
+            // // transform: perspective(1000px) rotateX(0deg) rotateY(0deg);
+            // content.style.transform = 'perspective(1000px) rotateX(' + offsetY / 70 + 'deg) rotateY(' + offsetX / 100 + 'deg)'
+
+            // 老师的方法：比例计算
+            // 旋转X轴（innerHeight只兼容标准浏览器）
+            var x = (0.5 - e.clientY / window.innerHeight) * 15; // 最多旋转15*0.5度
+            // 旋转Y轴
+            var y = (e.clientX / window.innerWidth - 0.5) * 15;
+            content.style.transform = 'perspective(1000px) rotateX(' + x + 'deg) rotateY(' + y + 'deg)';
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="content">
+        <div class="box">
+            <div><span>1</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>2</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>3</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>4</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>5</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>6</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>7</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>8</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>9</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>10</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>11</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>12</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>13</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="box">
+            <div><span>14</span></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+</body>
+
+</html>
