@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3全屏切换效果</title>
+    <!-- 导航切换有个缺口的效果：
+		1. 第一层：缺口
+		2. 第二层：图标
+		3. 第三层：蓝色背景 -->
+    <style>
+    body,
+    h2,
+    p {
+        margin: 0;
+    }
+    
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    
+    body {
+        background: #191919;
+        transition: .7s;
+    }
+    
+    #content {
+        width: 960px;
+        margin: 0 auto 100px auto;
+    }
+    
+    .text {
+        width: 300px;
+        height: 200px;
+        margin-top: 170px;
+        float: left;
+        position: relative;
+    }
+    
+    .text h2 {
+        /*font-size/line-height*/
+        font: bold 36px/60px "微软雅黑";
+        color: #fff;
+        margin-bottom: 40px;
+        position: absolute;
+        top: 0;
+        opacity: 0;
+        /*transition: .5s;*/
+        /*transition: .5s .2s;*/
+        transition: .5s .2s ease-out;
+    }
+    
+    .text p {
+        color: #fff;
+        position: absolute;
+        top: 85px;
+        opacity: 0;
+        /*transition: .5s;*/
+        /*transition: .5s .1s;*/
+        transition: .5s .1s ease-out;
+    }
+    
+    .text a {
+        display: block;
+        width: 100px;
+        line-height: 25px;
+        background: #fff;
+        color: #666;
+        text-align: center;
+        font-size: 12px;
+        text-decoration: none;
+        position: absolute;
+        top: 120px;
+        opacity: 0;
+        /*transition: .5s;*/
+        transition: .5s ease-out;
+    }
+    
+    .text h2:nth-of-type(1),
+    .text p:nth-of-type(1),
+    .text a:nth-of-type(1) {
+        opacity: 1;
+    }
+    
+    .img {
+        float: right;
+        width: 506px;
+        height: 440px;
+        margin-top: 80px;
+        position: relative;
+    }
+    
+    .img img {
+        opacity: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transition: .5s ease-out;
+    }
+    
+    .img img:nth-of-type(1) {
+        opacity: 1;
+    }
+    
+    .nav {
+        width: 960px;
+        height: 156px;
+        clear: both;
+        position: relative;
+        top: 100px
+    }
+    
+    .nav ul {
+        height: 122px;
+        background: url(images/banner.png);
+        padding-left: 20px;
+        position: absolute;
+        left: 0;
+        top: 17px;
+        z-index: 2;
+    }
+    
+    .nav li {
+        float: left;
+        width: 115px;
+        height: 122px;
+        text-indent: -100px;
+        overflow: hidden;
+        cursor: pointer;
+    }
+    
+    .select {
+        position: absolute;
+        left: 20px;
+        transition: .5s;
+    }
+    
+    .select div:nth-of-type(1) {
+        width: 115px;
+        height: 156px;
+        position: absolute;
+        z-index: 1;
+        border-radius: 10px;
+        background: #0084cf;
+    }
+    
+    .select div:nth-of-type(2) {
+        width: 115px;
+        height: 156px;
+        position: absolute;
+        z-index: 3;
+        background: url(images/slide_bg.gif) center no-repeat;
+    }
+    
+    .text h2.toTop,
+    .text p.toTop,
+    .text a.toTop {
+        transform: translateY(-150px);
+        opacity: 0;
+    }
+    /*文字走到上面*/
+    
+    .text h2.toCenter,
+    .text p.toCenter,
+    .text a.toCenter {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+    /*文字走到中间*/
+    
+    .text h2.toBottom,
+    .text p.toBottom,
+    .text a.toBottom {
+        transform: translateY(150px);
+        opacity: 0;
+    }
+    /*文字走到下面*/
+    
+    .img img.toRight {
+        transform: translateX(150px);
+        opacity: 0;
+    }
+    /*图片走到右边*/
+    
+    .img img.toCenter {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+    /*图片走到中间*/
+    
+    .img img.toLeft {
+        transform: translateX(-150px);
+        opacity: 0;
+    }
+    /*图片走到左边*/
+    </style>
+    <script>
+    window.onload = function() {
+        var select = document.querySelector('.select');
+        var lis = document.querySelectorAll('.nav li');
+
+        var bg = ['#191919', '#0d0d0d', '#391b1b', '#1b373a', '#1c391b', '#1b2638', '#361b3a', '#1a3929'];
+
+        var h2s = document.querySelectorAll('.text h2');
+        var ps = document.querySelectorAll('.text p');
+        var as = document.querySelectorAll('.text a');
+        var imgs = document.querySelectorAll('.img img');
+
+        // 上一个索引 last number
+        var ln = 0;
+        // 解决快速点击，效果混乱问题
+        var canClick = true;
+
+        // 作用域问题、闭包问题
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].index = i;
+            // onclick 事件
+            lis[i].onclick = function() {
+                if (canClick) {
+                    canClick = false;
+                    // 当前的索引 current number
+                    var cn = this.index;
+                    select.style.left = this.offsetLeft + 'px';
+                    document.body.style.background = bg[cn];
+                    // 当前的文字先上去
+                    h2s[cn].className = 'toTop';
+                    ps[cn].className = 'toTop';
+                    as[cn].className = 'toTop';
+                    // 当前的图片先往左
+                    imgs[cn].className = 'toLeft';
+
+                    // 上一个文字先下去
+                    h2s[ln].className = 'toBottom';
+                    ps[ln].className = 'toBottom';
+                    as[ln].className = 'toBottom';
+                    // 上一张图片先往右
+                    imgs[ln].className = 'toRight';
+
+                    setTimeout(function() {
+                        // 当前的文字在到中间
+                        h2s[cn].className = 'toCenter';
+                        ps[cn].className = 'toCenter';
+                        as[cn].className = 'toCenter';
+                        // canClick = true;
+                    }, 400)
+                    setTimeout(function() {
+                        // 当前的图片在到中间
+                        imgs[cn].className = 'toCenter';
+                    }, 200)
+                    ln = cn;
+
+                    // 运动走完了
+                    var n = 0;
+                    h2s[cn].addEventListener('transitionend', function() {
+                        // 几个属性改变就触发几次
+                        n++;
+                        if (n === 1) {
+                            canClick = true;
+                        }
+                        // canClick = true;
+                    })
+                }
+            }
+        }
+    }
+    </script>
+</head>
+
+<body>
+    <div id="content">
+        <div class="text">
+            <h2>陈学辉</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+            <h2>海棠学院</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+            <h2>kaivon</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+            <h2>陈学辉</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+            <h2>html</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+            <h2>css</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+            <h2>javscript</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+            <h2>都是优秀的课程</h2>
+            <p>我是讲师陈学辉</p>
+            <a href="#">了解详情</a>
+        </div>
+        <div class="img">
+            <img src="images/img_01.png" />
+            <img src="images/img_02.png" />
+            <img src="images/img_03.png" />
+            <img src="images/img_04.png" />
+            <img src="images/img_05.png" />
+            <img src="images/img_06.png" />
+            <img src="images/img_07.png" />
+            <img src="images/img_08.png" />
+        </div>
+        <div class="nav">
+            <div class="select">
+                <!-- 蓝色后面的背景 -->
+                <div></div>
+                <!-- 蓝色前面的背景（半圆缺口） -->
+                <div></div>
+            </div>
+            <ul>
+                <li>小费传媒</li>
+                <li>地域分布</li>
+                <li>产品服务</li>
+                <li>系统优势</li>
+                <li>经典案例</li>
+                <li>常见问题</li>
+                <li>小费洞见</li>
+                <li>联系我们</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
