@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>loadingCSS</title>
+</head>
+
+<body>
+    <!-- 翻转效果 -->
+    <p>翻转效果</p>
+    <style>
+    .logo {
+        width: 40px;
+        height: 40px;
+        background-color: #DDD;
+        margin: 10px;
+        animation: fanzhuan 1.2s infinite ease-in-out;
+    }
+    
+    @keyframes fanzhuan {
+        0% {
+            transform: perspective(120px) rotateX(0) rotateY(0);
+        }
+        50% {
+            transform: perspective(120px) rotateX(180deg) rotateY(0);
+        }
+        100% {
+            transform: perspective(120px) rotateX(180deg) rotateY(180deg);
+        }
+    }
+    </style>
+    <div class="logo"></div>
+    <!-- 缩放效果 -->
+    <p>缩放效果</p>
+    <style>
+    .box {
+        width: 40px;
+        height: 40px;
+        margin: 10px;
+    }
+    
+    .box .sub {
+        width: 33%;
+        height: 33%;
+        background-color: #333;
+        float: left;
+        animation: boxshan 1.3s infinite ease-in-out;
+    }
+    
+    @keyframes boxshan {
+        0%,
+        75%,
+        100% {
+            transform: scale(1);
+        }
+        35% {
+            transform: scale(0);
+        }
+    }
+    </style>
+    <div class="box">
+        <div class="sub"></div>
+        <div class="sub"></div>
+        <div class="sub"></div>
+        <div class="sub"></div>
+        <div class="sub"></div>
+        <div class="sub"></div>
+        <div class="sub"></div>
+        <div class="sub"></div>
+        <div class="sub"></div>
+    </div>
+    <!-- 过度缩放效果 -->
+    <p>过度缩放效果</p>
+    <style>
+    .box1 {
+        width: 40px;
+        height: 40px;
+        margin: 10px;
+    }
+    
+    .box1 .sub1 {
+        width: 33%;
+        height: 33%;
+        background-color: #333;
+        float: left;
+        animation: boxshan1 1.3s infinite ease-in-out;
+    }
+    
+    @keyframes boxshan1 {
+        0%,
+        75%,
+        100% {
+            transform: scale(1);
+        }
+        35% {
+            transform: scale(0);
+        }
+    }
+    
+    .box1 .sub1:nth-child(7) {}
+    
+    .box1 .sub1:nth-child(4),
+    .box1 .sub1:nth-child(8) {
+        animation-delay: 0.1s;
+    }
+    
+    .box1 .sub1:nth-child(1),
+    .box1 .sub1:nth-child(5),
+    .box1 .sub1:nth-child(9) {
+        animation-delay: 0.2s;
+    }
+    
+    .box1 .sub1:nth-child(2),
+    .box1 .sub1:nth-child(6) {
+        animation-delay: 0.3s;
+    }
+    
+    .box1 .sub1:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    </style>
+    <div class="box1">
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+        <div class="sub1"></div>
+    </div>
+    <!-- 饿了么loading -->
+    <p>饿了么loading</p>
+    <style>
+    .eleme {
+        width: 305px;
+        height: 507px;
+        border: 1px solid #ddd;
+        position: relative;
+    }
+    
+    .eleme .loading {
+        position: absolute;
+        top: calc((100% - 100px) / 2);
+        left: calc((100% - 100px) / 2);
+        width: 100px;
+        height: 100px;
+        background-image: url(eleme.png);
+        animation: updown 0.8s infinite, tab 5.6s steps(7) infinite;
+    }
+    
+    @keyframes updown {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-50px);
+        }
+    }
+    
+    @keyframes tab {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 0 -700px;
+        }
+    }
+    
+    .eleme .ying {
+        position: absolute;
+        top: calc((100% + 120px) / 2);
+        left: calc((100% - 120px) / 2);
+        width: 120px;
+        height: 50px;
+        border-radius: 100%;
+        background-color: #d3e6ff;
+        animation: zooms 0.8s infinite;
+    }
+    
+    @keyframes zooms {
+        0%,
+        100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(0.5);
+        }
+    }
+    </style>
+    <div class="eleme">
+        <div class="loading"></div>
+        <div class="ying"></div>
+    </div>
+</body>
+
+</html>

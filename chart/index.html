@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>hchartTest</title>
+    <link href="https://cdn.bootcss.com/animate.css/3.5.2/animate.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="chart"></div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/highcharts/5.0.12/highcharts.js"></script>
+<script src="https://cdn.bootcss.com/highcharts/5.0.12/highcharts-3d.js"></script>
+<!-- 自定义 -->
+<script>
+$("#chart").highcharts({
+    // Highcharts 配置  
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: '训练射门结果'
+    },
+    subtitle: {
+        text: '谁更厉害'
+    },
+    xAxic: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: '球数（个）'
+        }
+    },
+    series: [{
+        name: '进球数',
+        data: [
+            ['老王', 3],
+            ['老张', 4],
+            ['老李', 1]
+        ]
+    },{
+        name: '撞门数',
+        data: [
+            ['老王', 3],
+            ['老张', 2],
+            ['老李', 4]
+        ]
+    }]
+});
+</script>
+
+</html>
